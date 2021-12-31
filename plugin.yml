@@ -1,0 +1,5 @@
+name: StockExchange
+version: 0.0.1
+author: LearXD
+api: [2.0.0]
+main: stock\Loader

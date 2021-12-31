@@ -1,0 +1,9 @@
+# ARQUIVO DE CONFIGURAÇÃO DOS ITEMS
+
+# EXEMPLO: PEDRA....
+
+#"ID:DAMAGE":
+#PREÇO P/ ITEM
+
+"1:0":
+  price: 100
