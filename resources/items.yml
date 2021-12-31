@@ -3,7 +3,7 @@
 # EXEMPLO: PEDRA....
 
 #"ID:DAMAGE":
-#PREÇO P/ ITEM
+#PREÇO P/ ITEM (100%)
 
 "1:0":
   price: 100

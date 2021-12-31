@@ -3,5 +3,11 @@
 # TEMPO EM MINUTOS QUE A BOLSA IRÁ SE ALTERAR...
 stock-exchange-refresh: 10
 
+# PORCENTAGEM MÍNIMA PARA A BOLSA
+min-percentage: 1
+
+# PORCENTAGEM MÁXIMA PARA A BOLSA (SE MAIOR QUE 100, O VALOR SERA MAIOR DO QUE O DESCREVIDO EM 'price')
+max-percentage: 200
+
 # MENSSAGEM QUE SERÁ ENVIADA A TODOS OS JOGADORES QUANDO A BOLSA MUDAR DE VALOR...
 stock-change-value-message: "§r\n§l§aBOLSA DE VALORES§r: §7A bolsa de valores agora está em §f{VALOR}%%§7!§r\n§r"

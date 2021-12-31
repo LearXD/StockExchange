@@ -75,7 +75,7 @@ class SellCommand extends \pocketmine\command\Command
                     break;
             }
             $player->removeWindow($window);
-            $event->setCancelled();
+            $event->setCancelled(true);
         });
 
         $window->setItem(12, Item::get(Item::MINECART)->setCustomName("§aVender itens da sua mão..."));

@@ -44,7 +44,7 @@ class Loader extends PluginBase implements Listener {
         self::$config = @yaml_parse_file($folder . 'config.yml');
         StockExchange::init(@yaml_parse_file($folder . 'items.yml'));
 
-        $this->getServer()->getCommandMap()->register('sell', new SellCommand('sell', 'Venda seus drops...'));
+        $this->getServer()->getCommandMap()->register('sell', new SellCommand('sell', 'Venda seus drops...', '', ['vender']));
         $this->getServer()->getCommandMap()->register('exchange', new StockExchangeCommand('exchange', 'Veja o valor da bolsa de valores...', '', ['bolsa']));
 
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new GraphicTask(), ((20 * 60) * self::$config['stock-exchange-refresh']));

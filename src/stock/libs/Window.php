@@ -1,11 +1,14 @@
 <?php
 
-namespace stock\libs {
+namespace bedwars\libs {
 
 
+    use pocketmine\block\Air;
+    use pocketmine\entity\FallingSand;
     use pocketmine\event\inventory\InventoryTransactionEvent;
     use pocketmine\event\Listener;
     use pocketmine\event\player\PlayerDropItemEvent;
+    use pocketmine\event\server\DataPacketReceiveEvent;
     use pocketmine\inventory\CustomInventory;
     use pocketmine\inventory\Inventory;
     use pocketmine\inventory\InventoryHolder;
@@ -18,6 +21,7 @@ namespace stock\libs {
     use pocketmine\nbt\tag\IntTag;
     use pocketmine\nbt\tag\StringTag;
     use pocketmine\network\protocol\BlockEntityDataPacket;
+    use pocketmine\network\protocol\ContainerSetSlotPacket;
     use pocketmine\network\protocol\UpdateBlockPacket;
     use pocketmine\Player;
     use pocketmine\plugin\Plugin;
@@ -87,43 +91,16 @@ namespace stock\libs {
         /** @var  Plugin */
         protected $owner = null;
 
-        /**
-         * @var Item[]
-         */
+        /** @var Item[] */
         protected $transitionedItems = [];
+
+        /** @var Player[] */
+        protected $lastTransitioned = [];
 
         public function __construct(Plugin $plugin)
         {
             $this->owner = $plugin;
         }
-
-        /*
-         *
-         * Beta TEST:
-         *
-         *
-        public function dataPacket(DataPacketReceiveEvent $event)
-        {
-            $packet = $event->getPacket();
-            $player = $event->getPlayer();
-
-            if ($packet instanceof ContainerSetSlotPacket) {
-
-                if ($window = WindowManager::getPlayerWindow($player)) {
-                    try {
-                        if ($packet->item->getId() > 0) {
-                            $window->getClosure()->call($window, $event, $player, $packet->item);
-                        }
-                    } catch (\Exception $exception) {
-                        var_dump($exception->getMessage());
-                    }
-                    //var_dump($packet->slot);
-                }
-
-            }
-
-
-        }*/
 
         public function drop(PlayerDropItemEvent $event) {
             $item = $event->getItem();
@@ -143,13 +120,17 @@ namespace stock\libs {
 
             if ($window = WindowManager::getPlayerWindow($player)) {
                 foreach ($transaction->getTransactions() as $trans) {
+                    /** @var Item $item */
                     $item = $trans->getTargetItem();
                     try {
                         if ($item->getId() > 0) {
                             $window->getClosure()->call($window, $event, $player, $item);
-                            if($event->isCancelled() and $item->getCustomName() != "") {
-                                $player->getInventory()->remove($item);
-                                $this->transitionedItems[$item->getCustomName()] = $item;
+                            if($event->isCancelled()) {
+                                if($item->getCustomName() != "") {
+                                    $player->getInventory()->remove($item);
+                                    $this->transitionedItems[$item->getCustomName()] = $item;
+                                }
+                                $player->getFloatingInventory()->remove($item);
                             }
                         }
                     } catch (\Exception $exception) {
